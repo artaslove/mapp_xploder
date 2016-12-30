@@ -8,18 +8,8 @@ sub inttohex2 {
  $_[1]=pack("H4",sprintf("%04X",$_[0]));
 }
 
-sub hextoint4 {
- my $a=hex(unpack("H2",substr($_[0],0,1)));
- my $b=hex(unpack("H2",substr($_[0],1,1)))*256;
- my $c=hex(unpack("H2",substr($_[0],2,1)))*65536;
- my $d=hex(unpack("H2",substr($_[0],3,1)))*16777216; 
- $_[1]=$a+$b+$c+$d; 
-}
-
-sub hextoint2 {
- my $a=hex(unpack("H2",substr($_[0],0,1)));
- my $b=hex(unpack("H2",substr($_[0],1,1)))*256;
- $_[1]=$a+$b; 
+sub hextoint {
+ $_[1]=unpack("s",$_[0]); 
 }
 
 my $MAPPHEADER = "^.{8}\x4E\x49\x4D\x61";
@@ -47,11 +37,11 @@ foreach my $file ( @ARGV )
    $wavname =~ s/%(..)/pack('c', hex($1))/eg;
    $wavname =~ s/\..*$//; 	
    my $sampleshex = substr($image,$namelength+19,4); 
-   hextoint4($sampleshex,$samplesint);
+   hextoint($sampleshex,$samplesint);
    my $samplechannelshex = substr($image,$namelength+23,2); 
-   hextoint2($samplechannelshex,$samplechannelsint);
+   hextoint($samplechannelshex,$samplechannelsint);
    my $samplefreqhex = substr($image,$namelength+27,4); 
-   hextoint4($samplefreqhex,$samplefreqint);
+   hextoint($samplefreqhex,$samplefreqint);
    my $sampleblockalignint = $samplechannelsint * 4; 
    inttohex2($sampleblockalignint,$sampleblockalignhex);
    my $samplelengthint = $samplesint * $sampleblockalignint; 
