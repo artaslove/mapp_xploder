@@ -1,5 +1,5 @@
 #/usr/local/bin/perl
-# A windows version
+# A beta windows version
 
 sub inttohex4 {
  my $hexval=sprintf("%08X",$_[0]);
@@ -71,7 +71,7 @@ foreach my $file ( @ARGV )
    my $samplebyterateint = $samplefreqint * $sampleblockalignint; 
    inttohex4($samplebyterateint,$samplebyteratehex);
    $image =~ m/$AUDIOHEADER(.*?)$AUDIOFOOTER/s;
-   
+   $mappoffset = $mappoffset + length($AUDIOHEADER) + length($1) + length($AUDIOFOOTER);
    my $wavimage = $1;
    my $wavdata = "RIFF" . $chunksizehex . "WAVEfmt " . "\x12\x00\x00\x00\x03\x00" . $samplechannelshex . $samplefreqhex . $samplebyteratehex . $sampleblockalignhex . "\x20\x00\x00\x00" . "fact" . "\x04\x00\x00\x00" . $sampleshex . "data" . $samplelengthhex; 
    if ( $samplechannelsint == 2 ) { 
