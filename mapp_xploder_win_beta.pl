@@ -95,6 +95,6 @@ foreach my $file ( @ARGV )
   }
   close $fh; 
  } else {
-  print "Usage: $0 [Reaktor for Windows Map File]\n";
+  print "Usage: $0 [Reaktor for Windows Mapp File]\n";
  }
 }
