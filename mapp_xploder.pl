@@ -45,7 +45,6 @@ foreach my $file ( @ARGV )
   my $data = do { local $/; open my( $fh ), $file; <$fh> };
   $data =~ m/($MAPPHEADER.{8}.*?)$MAPPFOOTER/s;    
   my $mappoffset = length($1);
-  print "offset: $mappoffset\n";
   while( substr($data,$mappoffset) =~ m/($MAPPFOOTER.*?$AUDIOFOOTER)/sg )
   {
    my $image = $1;
