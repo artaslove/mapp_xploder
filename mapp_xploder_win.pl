@@ -1,12 +1,8 @@
 #/usr/local/bin/perl
-# Reaktor Mapp file Xploder by bonafide@martica.org 
 # A windows version
 
 sub inttohex4 {
- my $hexval=sprintf("%X",$_[0]);
- while ( length($hexval) < 8 ) {
-  $hexval="0$hexval";
- }
+ my $hexval=sprintf("%08X",$_[0]);
  my $vala=substr($hexval,6,2);
  my $valb=substr($hexval,4,2);
  my $valc=substr($hexval,2,2);
@@ -15,10 +11,7 @@ sub inttohex4 {
 }
 
 sub inttohex2 {
- my $hexval=sprintf("%X",$_[0]);
- while ( length($hexval) < 4 ) {
-  $hexval="0$hexval";
- }
+ my $hexval=sprintf("%04X",$_[0]);
  my $vala=substr($hexval,2,2);
  my $valb=substr($hexval,0,2);
  $_[1]=pack("H4","$vala$valb");
@@ -63,7 +56,6 @@ foreach my $file ( @ARGV )
    my $wavname = $1;
    $wavname =~ s/\W/_/g; 	
    $wavname =~ s/_...$//; 	
-
    my $sampleshex = substr($image,$namelength+11,4); 
    hextoint4($sampleshex,$samplesint);
    my $samplechannelshex = substr($image,$namelength+15,2); 
@@ -78,12 +70,10 @@ foreach my $file ( @ARGV )
    inttohex4($chunksizeint,$chunksizehex);
    my $samplebyterateint = $samplefreqint * $sampleblockalignint; 
    inttohex4($samplebyterateint,$samplebyteratehex);
-
    $image =~ m/$AUDIOHEADER(.*?)$AUDIOFOOTER/s;
+   
    my $wavimage = $1;
-
    my $wavdata = "RIFF" . $chunksizehex . "WAVEfmt " . "\x12\x00\x00\x00\x03\x00" . $samplechannelshex . $samplefreqhex . $samplebyteratehex . $sampleblockalignhex . "\x20\x00\x00\x00" . "fact" . "\x04\x00\x00\x00" . $sampleshex . "data" . $samplelengthhex; 
-
    if ( $samplechannelsint == 2 ) { 
     my $sampleposition = 0; 
     my $midpoint = $samplelengthint/2; 
