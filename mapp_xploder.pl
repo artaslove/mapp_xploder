@@ -1,33 +1,25 @@
 #!/usr/bin/perl
 
 sub inttohex4 {
- my $hexval=sprintf("%08X",$_[0]);
- my $vala=substr($hexval,6,2);
- my $valb=substr($hexval,4,2);
- my $valc=substr($hexval,2,2);
- my $vald=substr($hexval,0,2);
- $_[1]=pack("H8","$vala$valb$valc$vald");
+ $_[1]=pack("H8",sprintf("%08X",$_[0]));
 }
 
 sub inttohex2 {
- my $hexval=sprintf("%04X",$_[0]);
- my $vala=substr($hexval,2,2);
- my $valb=substr($hexval,0,2);
- $_[1]=pack("H4","$vala$valb");
+ $_[1]=pack("H4",sprintf("%04X",$_[0]));
 }
 
 sub hextoint4 {
- my $vala=hex(unpack("H2",substr($_[0],0,1)));
- my $valb=hex(unpack("H2",substr($_[0],1,1)))*256;
- my $valc=hex(unpack("H2",substr($_[0],2,1)))*65536;
- my $vald=hex(unpack("H2",substr($_[0],3,1)))*16777216; 
- $_[1]=$vala+$valb+$valc+$vald; 
+ my $a=hex(unpack("H2",substr($_[0],0,1)));
+ my $b=hex(unpack("H2",substr($_[0],1,1)))*256;
+ my $c=hex(unpack("H2",substr($_[0],2,1)))*65536;
+ my $d=hex(unpack("H2",substr($_[0],3,1)))*16777216; 
+ $_[1]=$a+$b+$c+$d; 
 }
 
 sub hextoint2 {
- my $vala=hex(unpack("H2",substr($_[0],0,1)));
- my $valb=hex(unpack("H2",substr($_[0],1,1)))*256;
- $_[1]=$vala+$valb; 
+ my $a=hex(unpack("H2",substr($_[0],0,1)));
+ my $b=hex(unpack("H2",substr($_[0],1,1)))*256;
+ $_[1]=$a+$b; 
 }
 
 my $MAPPHEADER = "^.{8}\x4E\x49\x4D\x61";
