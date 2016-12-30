@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-# Reaktor Mapp file Xploder by bonafide@martica.org 
 
 sub inttohex4 {
  my $hexval=sprintf("%08X",$_[0]);
@@ -56,7 +55,6 @@ foreach my $file ( @ARGV )
    my $wavname = $1;
    $wavname =~ s/%(..)/pack('c', hex($1))/eg;
    $wavname =~ s/\..*$//; 	
-
    my $sampleshex = substr($image,$namelength+19,4); 
    hextoint4($sampleshex,$samplesint);
    my $samplechannelshex = substr($image,$namelength+23,2); 
@@ -71,14 +69,11 @@ foreach my $file ( @ARGV )
    inttohex4($chunksizeint,$chunksizehex);
    my $samplebyterateint = $samplefreqint * $sampleblockalignint; 
    inttohex4($samplebyterateint,$samplebyteratehex);
-
    $image =~ m/$AUDIOHEADER(.*?)($AUDIOFOOTER)/s;
    $mappoffset = $mappoffset + length($AUDIOHEADER) + length($1) + length($AUDIOFOOTER);
    my $wavimage = $1;
    my $footer = $2; # Todo: extract additional information such as the base note 
-
    my $wavdata = "RIFF" . $chunksizehex . "WAVEfmt " . "\x12\x00\x00\x00\x03\x00" . $samplechannelshex . $samplefreqhex . $samplebyteratehex . $sampleblockalignhex . "\x20\x00\x00\x00" . "fact" . "\x04\x00\x00\x00" . $sampleshex . "data" . $samplelengthhex; 
-
    if ( $samplechannelsint == 2 ) { 
     my $sampleposition = 0; 
     my $midpoint = $samplelengthint/2; 
@@ -102,4 +97,3 @@ foreach my $file ( @ARGV )
   print "Usage: $0 [Reaktor Mapp File]\n";
  }
 }
-
